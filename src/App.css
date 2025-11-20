@@ -1,4 +1,4 @@
-/* App.css - Updated */
+/* App.css - Board UI Theme with Horizontal Layout */
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
   min-height: 100vh;
 }
 
@@ -18,30 +18,34 @@ body {
 }
 
 .app-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   color: white;
   padding: 30px 20px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid rgba(252, 184, 82, 0.3);
 }
 
 .app-header h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
   font-weight: 800;
+  color: #fcb852;
+  text-shadow: 0 2px 10px rgba(252, 184, 82, 0.3);
 }
 
 .subtitle {
   font-size: 1.1rem;
   opacity: 0.9;
+  color: #999;
 }
 
 .app-main {
   flex: 1;
-  max-width: 1400px;
+  max-width: 100%;
   width: 100%;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 20px;
 }
 
 /* Connect Section */
@@ -53,18 +57,19 @@ body {
 }
 
 .connect-box {
-  background: white;
+  background: rgba(26, 26, 46, 0.95);
   border-radius: 20px;
   padding: 40px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   max-width: 500px;
   width: 100%;
   text-align: center;
+  border: 1px solid rgba(139, 92, 246, 0.3);
 }
 
 .connect-box h2 {
   margin-bottom: 25px;
-  color: #1f2937;
+  color: #fcb852;
   font-size: 1.8rem;
 }
 
@@ -77,33 +82,40 @@ body {
 .match-input {
   flex: 1;
   padding: 15px 20px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid rgba(252, 184, 82, 0.3);
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.match-input::placeholder {
+  color: #999;
 }
 
 .match-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #fcb852;
+  box-shadow: 0 0 0 3px rgba(252, 184, 82, 0.2);
 }
 
 .connect-button {
   padding: 15px 30px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, #fcb852 0%, #f59e0b 100%);
+  color: #1a1a2e;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(252, 184, 82, 0.3);
 }
 
 .connect-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(252, 184, 82, 0.5);
 }
 
 .connect-button:disabled {
@@ -112,39 +124,41 @@ body {
 }
 
 .error-message {
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
   padding: 12px;
   border-radius: 8px;
   margin-top: 15px;
   font-size: 0.9rem;
+  border: 1px solid rgba(220, 53, 69, 0.3);
 }
 
 .helper-text {
   margin-top: 20px;
-  color: #6b7280;
+  color: #999;
   font-size: 0.95rem;
 }
 
 /* Connection Bar */
 .connection-bar {
-  background: white;
+  background: rgba(26, 26, 46, 0.95);
   border-radius: 10px;
   padding: 15px 25px;
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  border: 1px solid rgba(139, 92, 246, 0.3);
 }
 
 .connection-bar.connected {
-  border-left: 4px solid #10b981;
+  border-left: 4px solid #28a745;
 }
 
 .connection-bar.disconnected {
-  border-left: 4px solid #ef4444;
+  border-left: 4px solid #dc3545;
 }
 
 .connection-info {
@@ -161,11 +175,13 @@ body {
 }
 
 .connection-bar.connected .status-dot {
-  background: #10b981;
+  background: #28a745;
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
 }
 
 .connection-bar.disconnected .status-dot {
-  background: #ef4444;
+  background: #dc3545;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
 }
 
 @keyframes pulse-dot {
@@ -179,16 +195,17 @@ body {
 
 .status-text {
   font-weight: 600;
-  color: #1f2937;
+  color: white;
 }
 
 .state-badge {
   padding: 4px 12px;
-  background: #f3f4f6;
+  background: rgba(139, 92, 246, 0.2);
   border-radius: 12px;
   font-size: 0.85rem;
-  color: #6b7280;
+  color: #8b5cf6;
   font-weight: 500;
+  border: 1px solid rgba(139, 92, 246, 0.3);
 }
 
 .connection-actions {
@@ -199,11 +216,12 @@ body {
 
 .match-id-display {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: #fcb852;
   font-family: 'Courier New', monospace;
-  background: #f9fafb;
+  background: rgba(252, 184, 82, 0.1);
   padding: 6px 12px;
   border-radius: 6px;
+  border: 1px solid rgba(252, 184, 82, 0.2);
 }
 
 .reconnect-btn, .disconnect-btn {
@@ -219,36 +237,89 @@ body {
 .reconnect-btn {
   background: #3b82f6;
   color: white;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
 }
 
 .reconnect-btn:hover {
   background: #2563eb;
   transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
 }
 
 .disconnect-btn {
-  background: #ef4444;
+  background: #dc3545;
   color: white;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.3);
 }
 
 .disconnect-btn:hover {
-  background: #dc2626;
+  background: #c82333;
   transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
 }
 
 .stream-error {
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 20px;
-  border-left: 4px solid #ef4444;
+  border-left: 4px solid #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.3);
 }
 
-/* Commentary Section - Full Width */
-.commentary-section-full {
-  margin-top: 20px;
+/* ========== HORIZONTAL DASHBOARD LAYOUT ========== */
+.dashboard-horizontal {
+  display: flex;
+  gap: 20px;
+  min-height: calc(100vh - 400px);
   animation: fadeInUp 0.5s ease-out;
+}
+
+/* LEFT: Scoreboard Section (Fixed Width) */
+.scoreboard-section {
+  width: 450px;
+  flex-shrink: 0;
+}
+
+.scoreboard-section .scoreboard {
+  margin-bottom: 0;
+  height: 100%;
+}
+
+/* RIGHT: Commentary Section (Flexible Width) */
+.commentary-section {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+
+.commentary-section .commentary-box {
+  width: 100%;
+  max-height: none;
+  height: auto;
+}
+
+/* Adjust Commentary Box internal layout for horizontal dashboard */
+.commentary-section .commentary-main-horizontal {
+  display: flex;
+  gap: 1rem;
+}
+
+.commentary-section .score-box {
+  width: 280px;
+}
+
+.commentary-section .players-box {
+  width: 280px;
+}
+
+.commentary-section .latest-box {
+  width: 280px;
+}
+
+.commentary-section .commentary-cards-box {
+  flex: 1;
 }
 
 @keyframes fadeInUp {
@@ -264,19 +335,64 @@ body {
 
 /* Footer */
 .app-footer {
-  background: #1f2937;
+  background: rgba(26, 26, 46, 0.95);
   color: white;
   text-align: center;
   padding: 20px;
   margin-top: 40px;
+  border-top: 2px solid rgba(252, 184, 82, 0.3);
 }
 
 .app-footer p {
   margin: 0;
   opacity: 0.8;
+  color: #999;
 }
 
-/* Responsive Design */
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 1400px) {
+  .dashboard-horizontal {
+    gap: 15px;
+  }
+
+  .scoreboard-section {
+    width: 380px;
+  }
+
+  .commentary-section .score-box,
+  .commentary-section .players-box,
+  .commentary-section .latest-box {
+    width: 240px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-horizontal {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .scoreboard-section {
+    width: 100%;
+  }
+
+  .commentary-section .commentary-main-horizontal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .commentary-section .score-box,
+  .commentary-section .players-box,
+  .commentary-section .latest-box {
+    width: 100%;
+  }
+
+  .commentary-section .commentary-cards-box {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 768px) {
   .app-header h1 {
     font-size: 1.8rem;
@@ -287,7 +403,7 @@ body {
   }
 
   .app-main {
-    padding: 20px 15px;
+    padding: 15px;
   }
 
   .connect-box {
@@ -315,6 +431,14 @@ body {
   .match-id-display {
     width: 100%;
     text-align: center;
+  }
+
+  .commentary-section .commentary-box {
+    height: auto;
+  }
+
+  .commentary-section .commentary-main-horizontal {
+    grid-template-columns: 1fr;
   }
 }
 

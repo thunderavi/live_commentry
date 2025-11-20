@@ -1,21 +1,23 @@
-/* MatchControls.css */
+/* MatchControls.css - Board UI Theme */
 .match-controls {
-  background: white;
+  background: rgba(26, 26, 46, 0.95);
   border-radius: 15px;
   padding: 25px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(139, 92, 246, 0.3);
   position: relative;
 }
 
 .match-controls h3 {
   margin: 0 0 20px 0;
-  color: #1f2937;
+  color: #fcb852;
   font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .match-controls h4 {
   margin: 15px 0 10px 0;
-  color: #6b7280;
+  color: #999;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -31,15 +33,17 @@
 }
 
 .message.success {
-  background: #d1fae5;
-  color: #065f46;
-  border-left: 4px solid #10b981;
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border-left: 4px solid #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.3);
 }
 
 .message.error {
-  background: #fee2e2;
-  color: #991b1b;
-  border-left: 4px solid #ef4444;
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border-left: 4px solid #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.3);
 }
 
 @keyframes fadeIn {
@@ -56,7 +60,7 @@
 .controls-section {
   margin-bottom: 25px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .controls-section:last-child {
@@ -78,17 +82,18 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: white;
 }
 
 .btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .btn:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn:disabled {
@@ -97,62 +102,74 @@
 }
 
 .btn-dot {
-  background: #f3f4f6;
-  color: #4b5563;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn-dot:hover:not(:disabled) {
-  background: #e5e7eb;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .btn-runs {
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
 
 .btn-runs:hover:not(:disabled) {
   background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
 }
 
 .btn-four {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
   font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .btn-four:hover:not(:disabled) {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 .btn-six {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #28a745 0%, #218838 100%);
   color: white;
   font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
 .btn-six:hover:not(:disabled) {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
 }
 
 .btn-wicket {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
   color: white;
   font-size: 1.2rem;
   padding: 18px 25px;
   width: 100%;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 .btn-wicket:hover:not(:disabled) {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
 .btn-extra {
-  background: #fbbf24;
-  color: #78350f;
+  background: #fcb852;
+  color: #1a1a2e;
+  box-shadow: 0 2px 8px rgba(252, 184, 82, 0.3);
 }
 
 .btn-extra:hover:not(:disabled) {
   background: #f59e0b;
+  box-shadow: 0 4px 12px rgba(252, 184, 82, 0.4);
 }
 
 .loading-overlay {
@@ -161,7 +178,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(26, 26, 46, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,8 +189,8 @@
 .spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #e5e7eb;
-  border-top-color: #3b82f6;
+  border: 4px solid rgba(252, 184, 82, 0.2);
+  border-top-color: #fcb852;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }

@@ -59,8 +59,8 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🏏 Cricket Commentary System</h1>
-        <p className="subtitle">Real-time AI-Powered Cricket Commentary</p>
+        <h1>🏏 CricketCast</h1>
+        <p className="subtitle">  @ Powered by AI. Driven by Cricket.</p>
       </header>
 
       <main className="app-main">
@@ -131,24 +131,30 @@ function App() {
               </div>
             )}
 
-            {/* Scoreboard */}
-            <Scoreboard match={match} scoreUpdate={scoreUpdate} />
+            {/* HORIZONTAL LAYOUT: Scoreboard + Commentary */}
+            <div className="dashboard-horizontal">
+              {/* LEFT: Scoreboard Section */}
+              <div className="scoreboard-section">
+                <Scoreboard match={match} scoreUpdate={scoreUpdate} />
+              </div>
 
-            {/* Commentary Box - Full Width */}
-            <div className="commentary-section-full">
-              <CommentaryBox 
-                commentary={commentary}
-                latestCommentary={latestCommentary}
-                connected={connected}
-                error={streamError}
-              />
+              {/* RIGHT: Commentary Section */}
+              <div className="commentary-section">
+                <CommentaryBox 
+                  commentary={commentary}
+                  latestCommentary={latestCommentary}
+                  connected={connected}
+                  error={streamError}
+                  match={match}
+                />
+              </div>
             </div>
           </>
         )}
       </main>
 
       <footer className="app-footer">
-        <p>Built with ❤️ using React + Vite | OpenAI GPT-4o-mini & TTS</p>
+        <p>Built with ❤️ using React + Vite | Gemini & TTS | By Avi Ranjan Prasad</p>
       </footer>
     </div>
   );

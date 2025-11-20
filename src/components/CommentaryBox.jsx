@@ -1,19 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/CommentaryBox.css';
 
-const CommentaryBox = ({ commentary, latestCommentary, connected, error }) => {
+const CommentaryBox = ({ commentary, latestCommentary, connected, error, match }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentAudio, setCurrentAudio] = useState(null);
   const [volume, setVolume] = useState(0.8);
   const audioRef = useRef(null);
-  const commentaryListRef = useRef(null);
-
-  // Auto-scroll to latest commentary
-  useEffect(() => {
-    if (commentaryListRef.current && latestCommentary) {
-      commentaryListRef.current.scrollTop = 0;
-    }
-  }, [latestCommentary]);
 
   // Handle audio playback
   const playAudio = (audioUrl, commentaryId) => {
@@ -87,7 +79,7 @@ const CommentaryBox = ({ commentary, latestCommentary, connected, error }) => {
       case 'NO_BALL':
         return '🔴';
       default:
-        return '🔢';
+        return '📢';
     }
   };
 
@@ -107,161 +99,185 @@ const CommentaryBox = ({ commentary, latestCommentary, connected, error }) => {
     }
   };
 
+  // Get innings data - matching backend structure
+  const innings1 = match?.innings1Score || match?.scores?.[0] || {};
+  const innings2 = match?.innings2Score || match?.scores?.[1] || {};
+  const currentInningsNumber = match?.currentInnings || 1;
+  const currentInnings = currentInningsNumber === 1 ? innings1 : innings2;
+
+  // Get completed players and current player
+  const completedPlayers = currentInnings?.completedPlayers || [];
+  const currentPlayer = currentInnings?.currentPlayer || null;
+
   return (
     <div className="commentary-box">
+      {/* HEADER with Commentator Icon and Audio Controls */}
       <div className="commentary-header">
-        <div className="header-left">
-          <div className="commentator-logo">
-            🎙️
+        <div className="commentator-section">
+          <div className="commentator-avatar">
+            <div className="avatar-icon">🎙️</div>
             {isPlaying && (
               <>
-                <div className="wave-indicator active"></div>
-                <div className="wave-indicator active wave-2"></div>
+                <div className="sound-wave wave-1"></div>
+                <div className="sound-wave wave-2"></div>
+                <div className="sound-wave wave-3"></div>
               </>
             )}
           </div>
-          <div className="header-title">
-            <h2>Live Commentary</h2>
-            <div className="header-subtitle">AI-Powered Match Analysis</div>
+          <div className="commentator-info">
+            <h3>AI Commentator</h3>
+            <span className={`status-badge ${connected ? 'live' : 'offline'}`}>
+              {connected ? '● LIVE' : '● OFFLINE'}
+            </span>
           </div>
         </div>
-        <div className="connection-status">
-          {connected ? (
-            <span className="status-connected">● LIVE</span>
-          ) : (
-            <span className="status-disconnected">● OFFLINE</span>
-          )}
-        </div>
-      </div>
 
-      {/* Audio Controls */}
-      <div className="audio-controls">
-        {isPlaying ? (
-          <button className="audio-control-btn" onClick={stopAudio} title="Stop Audio">
-            ⏸️
-          </button>
-        ) : (
+        <div className="audio-controls-top">
           <button 
-            className="audio-control-btn" 
-            onClick={() => latestCommentary?.audioUrl && playAudio(latestCommentary.audioUrl, 'latest')} 
-            disabled={!latestCommentary?.audioUrl} 
-            title="Play Latest"
+            className="audio-btn"
+            onClick={isPlaying ? stopAudio : () => latestCommentary?.audioUrl && playAudio(latestCommentary.audioUrl, 'latest')}
+            disabled={!latestCommentary?.audioUrl}
+            title={isPlaying ? "Stop Audio" : "Play Latest"}
           >
-            ▶️
+            {isPlaying ? '⏸️' : '▶️'}
           </button>
-        )}
-        
-        <div className="volume-control">
-          <span className="volume-icon">🔊</span>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.1"
-            value={volume}
-            onChange={handleVolumeChange}
-            className="volume-slider"
-          />
-          <span className="volume-text">{Math.round(volume * 100)}%</span>
+          
+          <div className="volume-wrapper">
+            <span className="volume-icon">🔊</span>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              value={volume}
+              onChange={handleVolumeChange}
+              className="volume-slider-top"
+            />
+            <span className="volume-percentage">{Math.round(volume * 100)}%</span>
+          </div>
         </div>
       </div>
 
-      {/* Error Display */}
       {error && (
-        <div className="commentary-error">
+        <div className="error-banner">
           <span className="error-icon">⚠️</span>
           <span className="error-text">{error}</span>
         </div>
       )}
 
-      {/* Latest Commentary Highlight */}
-      {latestCommentary && (
-        <div className="latest-commentary">
-          <div className="latest-icon">{getEventIcon(latestCommentary.eventType)}</div>
-          <div className="latest-content">
-            <div className="latest-text">{latestCommentary.text}</div>
-            <div className="latest-footer">
-              {latestCommentary.audioUrl && (
-                <button
-                  className={`audio-play-btn ${currentAudio === 'latest' && isPlaying ? 'playing' : ''}`}
-                  onClick={() => {
-                    if (currentAudio === 'latest' && isPlaying) {
-                      stopAudio();
-                    } else {
-                      playAudio(latestCommentary.audioUrl, 'latest');
-                    }
-                  }}
-                >
-                  {currentAudio === 'latest' && isPlaying ? '⏸️ Stop' : '▶️ Play'}
-                </button>
-              )}
-              {latestCommentary.isAIGenerated === false && (
-                <span className="fallback-badge">Fallback</span>
-              )}
-              {!latestCommentary.audioUrl && (
-                <span className="no-audio-badge">No Audio</span>
-              )}
+      {/* MAIN HORIZONTAL CONTENT */}
+      <div className="commentary-main-horizontal">
+        {/* TEAM SCORE BOX */}
+        <div className="score-box">
+          <div className="score-box-header">
+            <img 
+              src={currentInningsNumber === 1 ? match?.team1?.logo : match?.team2?.logo} 
+              alt="Team Logo"
+              className="team-logo"
+            />
+            <div className="team-info">
+              <h4>{currentInningsNumber === 1 ? match?.team1?.name : match?.team2?.name}</h4>
+              <span className="innings-label">{currentInningsNumber === 1 ? '1st' : '2nd'} Inn</span>
+            </div>
+          </div>
+          <div className="score-display">
+            <div className="score-big">{currentInnings.runs || 0}/{currentInnings.wickets || 0}</div>
+            <div className="score-meta">
+              <span>Ov: {currentInnings.overs || '0.0'}</span>
+              <span className="separator">•</span>
+              <span>RR: {currentInnings.runRate?.toFixed(2) || '0.00'}</span>
             </div>
           </div>
         </div>
-      )}
 
-      {/* Commentary List */}
-      <div className="commentary-list" ref={commentaryListRef}>
-        {commentary.length === 0 ? (
-          <div className="no-commentary">
-            <p>⏳ Waiting for match commentary...</p>
-            <p className="hint">Commentary will appear here as the match progresses.</p>
+        {/* PLAYERS BOX */}
+        <div className="players-box">
+          <div className="players-box-header">
+            <span>🏏 Batsmen</span>
           </div>
-        ) : (
-          commentary.map((item, index) => (
-            <div
-              key={item.id || index}
-              className={`commentary-item ${getPriorityClass(item.priority)}`}
-            >
-              <div className="commentary-meta">
-                <span className="commentary-icon">{getEventIcon(item.eventType)}</span>
-                <span className="commentary-time">{formatTime(item.createdAt)}</span>
-                <span className={`commentary-type ${item.eventType.toLowerCase()}`}>
-                  {item.eventType}
+          <div className="players-horizontal">
+            {currentPlayer && (
+              <div className="player-card current">
+                <img 
+                  src={currentPlayer.player?.photo || '/default-player.png'} 
+                  alt={currentPlayer.player?.playerName}
+                  className="player-img"
+                />
+                <span className="player-name-horizontal">
+                  {currentPlayer.player?.playerName || 'Current'} ⭐
                 </span>
-                {item.audioUrl && (
-                  <button
-                    className={`item-audio-btn ${currentAudio === item.id && isPlaying ? 'playing' : ''}`}
-                    onClick={() => {
-                      if (currentAudio === item.id && isPlaying) {
-                        stopAudio();
-                      } else {
-                        playAudio(item.audioUrl, item.id);
-                      }
-                    }}
-                  >
-                    {currentAudio === item.id && isPlaying ? '⏸️' : '🔊'}
-                  </button>
-                )}
-                {item.isAIGenerated === false && (
-                  <span className="fallback-indicator" title="Fallback commentary">
-                    FB
-                  </span>
-                )}
               </div>
-              <div className="commentary-text">{item.text}</div>
-              {item.eventData && (
-                <div className="commentary-context">
-                  {item.eventData.teamScore && (
-                    <span className="context-score">{item.eventData.teamScore}</span>
-                  )}
-                  {item.eventData.overNumber && (
-                    <span className="context-over">Ov: {item.eventData.overNumber}</span>
-                  )}
-                  {item.eventData.batterName && (
-                    <span className="context-player">{item.eventData.batterName}</span>
-                  )}
+            )}
+
+            {completedPlayers && completedPlayers.slice(0, 5).map((cp, idx) => {
+              const playerName = cp.player?.playerName || cp.player?.name || 'Unknown';
+              const playerPhoto = cp.player?.photo || '/default-player.png';
+              return (
+                <div key={idx} className="player-card">
+                  <img 
+                    src={playerPhoto} 
+                    alt={playerName}
+                    className="player-img"
+                  />
+                  <span className="player-name-horizontal">{playerName}</span>
                 </div>
-              )}
-            </div>
-          ))
-        )}
+              );
+            })}
+
+            {!currentPlayer && (!completedPlayers || completedPlayers.length === 0) && (
+              <div className="no-players-horizontal">
+                <span>⏳ Waiting for players...</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        
+        {/* COMMENTARY CARDS BOX */}
+        <div className="commentary-cards-box">
+          <div className="commentary-cards-header">
+            <span>📢 Commentary Feed</span>
+          </div>
+          <div className="commentary-cards-horizontal">
+            {commentary.length === 0 ? (
+              <div className="no-commentary-horizontal">
+                <p>⏳ Waiting for commentary...</p>
+              </div>
+            ) : (
+              commentary.slice(0, 6).map((item, index) => (
+                <div
+                  key={item.id || index}
+                  className={`commentary-card ${getPriorityClass(item.priority)}`}
+                >
+                  <div className="card-header-mini">
+                    <span className="card-icon">{getEventIcon(item.eventType)}</span>
+                    <span className="card-time">{formatTime(item.createdAt)}</span>
+                  </div>
+                  <div className="card-text">{item.text}</div>
+                  <div className="card-footer-mini">
+                    <span className={`card-type ${item.eventType.toLowerCase()}`}>
+                      {item.eventType}
+                    </span>
+                    {item.audioUrl && (
+                      <button
+                        className={`card-audio-btn ${currentAudio === item.id && isPlaying ? 'playing' : ''}`}
+                        onClick={() => {
+                          if (currentAudio === item.id && isPlaying) {
+                            stopAudio();
+                          } else {
+                            playAudio(item.audioUrl, item.id);
+                          }
+                        }}
+                      >
+                        {currentAudio === item.id && isPlaying ? '⏸️' : '▶️'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
